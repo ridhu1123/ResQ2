@@ -6,15 +6,16 @@ class CustomTextField extends StatelessWidget {
   final bool obscureText;
   final TextInputType keyboardType;
   final IconData? prefixIcon;
-
-  const CustomTextField({
-    Key? key,
+ final Function(String)? onChanged;
+  const CustomTextField({super.key,  
+  
     required this.hintText,
     this.controller,
     this.obscureText = false,
     this.keyboardType = TextInputType.text,
     this.prefixIcon,
-  }) : super(key: key);
+    this.onChanged
+  }) ;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +34,7 @@ class CustomTextField extends StatelessWidget {
         filled: true,
         fillColor: Colors.white,
       ),
+      onChanged:onChanged ,
     );
   }
 }

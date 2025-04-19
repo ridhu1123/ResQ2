@@ -4,6 +4,7 @@ import 'package:resq_application/module/admin/view/admin_login.dart';
 import 'package:resq_application/module/user/controller/user_login_controller.dart';
 import 'package:resq_application/module/user/view/bottom_navigation.dart';
 import 'package:resq_application/module/user/view/user_register.dart';
+import 'package:resq_application/module/voulnteer/view/voulnteer_login.dart';
 import 'package:resq_application/theme/theme.dart';
 import 'package:resq_application/widget/custom_textfeild.dart';
 
@@ -18,16 +19,33 @@ class UserLogin extends StatelessWidget {
   Widget build(BuildContext context) {
     final res = ResponsiveHelper(context);
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Get.toNamed('/adminLogin');
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>AdminLogin()));
-        },
-        backgroundColor: const Color(0xff0C3B2E),
-        child: const Icon(
-          Icons.admin_panel_settings,
-          color: Color(0xffFFBA00),
-        ),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+           FloatingActionButton(
+            onPressed: () {
+              // Get.toNamed('/adminLogin');
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>AdminLogin()));
+            },
+            backgroundColor: const Color(0xff0C3B2E),
+            child: const Icon(
+              Icons.admin_panel_settings,
+              color: Color(0xffFFBA00),
+            ),
+          ),
+          SizedBox(height: 10,),
+          FloatingActionButton(
+            onPressed: () {
+              // Get.toNamed('/adminLogin');
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>VoulnteerLogin()));
+            },
+            backgroundColor: const Color(0xff0C3B2E),
+            child: const Icon(
+              Icons.support_agent,
+              color: Color(0xffFFBA00),
+            ),
+          ),
+        ],
       ),
       backgroundColor: Color(0xff0C3B2E),
       body: Consumer<UserLoginController>(

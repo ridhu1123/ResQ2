@@ -26,13 +26,13 @@ class AdminLogin extends StatelessWidget {
         child: Tooltip(
           message: 'UserLogin',
           child: const Icon(
-            Icons.person_2_rounded,
+            Icons.subdirectory_arrow_left_rounded,
             color: Color(0xffFFBA00),
           ),
         ),
       ),
       backgroundColor: Color(0xff0C3B2E),
-      body: Consumer<AdminLoginController>(
+      body: Consumer<UserLoginController>(
         builder: (context,controller,_) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.center,

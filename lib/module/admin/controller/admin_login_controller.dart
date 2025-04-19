@@ -52,7 +52,10 @@ TextEditingController passWordController=TextEditingController();
 //       return false;
 //     }
 //   }
-
+  Future<void>signOut()async{
+   await firebaseAuth.signOut();
+   
+  }
   void clearControllers(){
     emailController.clear();
     passWordController.clear();

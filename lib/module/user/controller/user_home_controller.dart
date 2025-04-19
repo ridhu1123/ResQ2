@@ -1,9 +1,11 @@
 
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:resq_application/module/user/model/user_details_model.dart';
 
 class UserHomeController extends ChangeNotifier {
   UserHomeController(){
@@ -20,6 +22,11 @@ class UserHomeController extends ChangeNotifier {
   TextEditingController bloodGroupController=TextEditingController();
   TextEditingController genderController=TextEditingController();
   TextEditingController ageController=TextEditingController();
+  String? name;
+  String?note;
+  String? location;
+  UserDetailsModel? userDetails;
+  String status='Safe';
   List<String> firstAidImage=[
     'assets/firstaid.jpg',
     'assets/food.jpg',
@@ -38,12 +45,16 @@ class UserHomeController extends ChangeNotifier {
     try {
       isLoading=true;
       notifyListeners();
-      final response= await firebaseFirestore.collection('resQ details').doc().set(
+       await firebaseFirestore.collection('resQ details').doc().set(
       {
-      'name':nameController.text,
-      'location':locationController.text,
-      'note':noteController.text,
-
+      'name':name,
+      'location':location,
+      'note':note,
+      'phone':userDetails?.phone,
+      'blood_group':userDetails?.bloodGroup,
+      'gender':userDetails?.gender,
+      'age':userDetails?.age,
+      'status':status
       }
       );
       clearController();
@@ -56,13 +67,13 @@ class UserHomeController extends ChangeNotifier {
       log('Something went wrong $e');
     }
   }
-
+  bool isUpdateLoading=false;
    Future<void> updateUserDetails()async{
-    final uid= await firebaseAuth.currentUser?.uid;
+    final uid= firebaseAuth.currentUser?.uid;
     try {
-      isLoading=true;
+      isUpdateLoading=true;
       notifyListeners();
-      final response= await firebaseFirestore.collection('users').doc(uid).update(
+      await firebaseFirestore.collection('users').doc(uid).update(
       {
       'name':nameController.text,
       'phone':phoneController.text,
@@ -71,32 +82,64 @@ class UserHomeController extends ChangeNotifier {
       'age':ageController.text
       }
       );
+      log('Succefully updated ');
       clearController();
-      isLoading=false;
+      isUpdateLoading=false;
       notifyListeners();
       // log('resQ response ${response}')
     } catch (e) {
-       isLoading=false;
+       isUpdateLoading=false;
       notifyListeners();
       log('Something went wrong $e');
     }
   }
   
- Future<void>getUserDetails() async{
-    final uid= await firebaseAuth.currentUser?.uid;
+Future<void> getUserDetails() async {
+  final uid = firebaseAuth.currentUser?.uid;
+
+  if (uid == null) {
+    log('User is not logged in');
+    return;
+  }
 
   try {
-    final response= await firebaseFirestore.collection('users').doc(uid).get();
-    log('user details $response');
+    final doc = await firebaseFirestore.collection('users').doc(uid).get();
+    final data = doc.data();
+
+    if (data != null) {
+      userDetails = UserDetailsModel.fromJson(data); 
+      log('User Name: ${userDetails?.name}');
+    } else {
+      log('No user document found.');
+    }
   } catch (e) {
-      log('Something went wrong $e');
+    log('Something went wrong $e');
   }
- }
+}
+ void changeStatus() {
+    if (status == 'Safe') {
+      status = 'Mild';
+      notifyListeners();
+    } else if (status == 'Mild') {
+      status = 'Severe';
+      notifyListeners();
+    } else {
+      status = 'Safe';
+      notifyListeners();
+    }
+    print('Status changed to: $status');
+  }
 
  void clearController(){
+  status='Safe';
   noteController.clear();
   nameController.clear();
   locationController.clear();
+  ageController.clear();
+  phoneController.clear();
+  bloodGroupController.clear();
+  genderController.clear();
+
   notifyListeners();
  } 
 }

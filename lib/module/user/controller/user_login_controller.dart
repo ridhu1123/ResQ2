@@ -10,6 +10,7 @@ class UserLoginController extends ChangeNotifier {
   FirebaseFirestore firebaseFireStor = FirebaseFirestore.instance;
   TextEditingController emailController = TextEditingController();
   TextEditingController passWordController = TextEditingController();
+  TextEditingController districtController = TextEditingController();
   bool isLoading = false;
   Future<void> userSignUp() async {
     try {
@@ -35,7 +36,8 @@ class UserLoginController extends ChangeNotifier {
       'phone':'',
       'blood_group':'',
       'gender':'',
-      'age':''
+      'age':'',
+      'district':districtController.text
     });
           });
       
@@ -54,7 +56,6 @@ class UserLoginController extends ChangeNotifier {
 
   Future<bool> userSignIn({int? userType}) async {
    
-    
     try {
       isLoading = true;
       notifyListeners();
@@ -63,6 +64,11 @@ class UserLoginController extends ChangeNotifier {
             email: emailController.text,
             password: passWordController.text,
           );
+   
+    if (!(response.user?.emailVerified??false)) {
+      log('email  is not verified');
+      return false;
+    }
          if (response.user !=null) {
            final userData=await firebaseFireStor.collection('users')
         .doc(response.user?.uid)
@@ -89,6 +95,18 @@ class UserLoginController extends ChangeNotifier {
       notifyListeners();
            CustomSnackBar.show(title: '', message: 'Somethink went wrong $e');
       log('Somethinkwent wrong $e');
+      return false;
+    }
+  }
+  Future<bool> userSignOut()async{
+    try {
+      if (firebaseAuth.currentUser?.uid ==null) {
+        return false;
+      }
+      await firebaseAuth.signOut();
+      return true;
+    } catch (e) {
+      log('Something went wrong $e');
       return false;
     }
   }

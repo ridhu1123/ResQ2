@@ -76,7 +76,12 @@ class UserRegister extends StatelessWidget {
                               value:value ,
                               child:Text(value??'') ,);
                           },).toList(),
-                          onChanged: (value) {},
+                          onChanged: (value) {
+                            if (value==null) {
+                              return;
+                            }
+                            controller.districtController.text=value;
+                          },
                         ),
                       ),
                       SizedBox(height: res.width(0.05)),

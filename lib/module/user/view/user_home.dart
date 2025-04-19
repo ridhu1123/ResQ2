@@ -105,6 +105,9 @@ class UserHome extends StatelessWidget {
                               borderSide: const BorderSide(color: Colors.white70),
                             ),
                           ),
+                          onChanged: (value) {
+                            controller.note=value;
+                          },
                         ),
                         SizedBox(
                           height: res.width(0.04),
@@ -112,6 +115,9 @@ class UserHome extends StatelessWidget {
                         CustomTextField(
                           hintText: 'Name',
                           controller: controller.nameController,
+                          onChanged: (p0) {
+                            controller.name=p0;
+                          },
                         ),
                         SizedBox(
                           height: res.width(0.04),
@@ -124,6 +130,9 @@ class UserHome extends StatelessWidget {
                             hintText: 'Location',
                             controller: controller.locationController,
                             prefixIcon: Icons.location_on,
+                            onChanged: (p0) {
+                              controller.location=p0;
+                            },
                           ),
                         ),
                         SizedBox(
