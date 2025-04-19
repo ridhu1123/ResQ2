@@ -53,17 +53,19 @@ Future<void> fetchAllUsers() async {
             })
         .toList();
 
-    print('Fetched all users: $allData');
+    // print('Fetched all users: $allData');
 
     // You can now assign this to a variable like allUsers
     // allUsers.value = allData;
 
   } catch (e) {
-    print('Error fetching users: $e');
+    // print('Error fetching users: $e');
   } finally {
     isLoading = false;
     notifyListeners();
   }
 }
+
+
 
 }
