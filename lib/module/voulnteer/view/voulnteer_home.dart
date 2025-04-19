@@ -1,24 +1,21 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:resq_application/module/admin/controller/admin_home_controller.dart';
+import 'package:resq_application/module/admin/controller/accepted_resq_controller.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class CompletedRequests extends StatefulWidget {
+class VoulnteerHome extends StatefulWidget {
 
-  CompletedRequests({super.key});
+  const VoulnteerHome({super.key});
 
   @override
-  State<CompletedRequests> createState() => _CompletedRequestsState();
+  State<VoulnteerHome> createState() => _VoulnteerHomeState();
 }
 
-class _CompletedRequestsState extends State<CompletedRequests> {
+class _VoulnteerHomeState extends State<VoulnteerHome> {
   @override
   void initState() {
-    // TODO: implement initState
+    context.read<AcceptedResqController>().fetchAllAccpectedResq();
     super.initState();
   }
 
@@ -27,36 +24,36 @@ class _CompletedRequestsState extends State<CompletedRequests> {
     return Scaffold(
       backgroundColor: Color(0xff0C3B2E),
      
-      appBar: AppBar(title: Text("Completes ResQ"),
+      appBar: AppBar(title: Text("Volunteer Dashboard"),
       actions: [
          IconButton(onPressed: () {
-          // controller.fetchAllUsers();
+          context.read<AcceptedResqController>().fetchAllAccpectedResq();
         }, icon:
-         LottieBuilder.asset('assets/Animation - 1743885710865.json',)
+         LottieBuilder.asset('assets/Animation - 1743885710865.json',repeat: context.watch<AcceptedResqController>().isLoading,)
         )
       
      
       ],
       ),
-      body:Consumer<AdminHomeController>(builder: (context, controller, _) {
-        //   if (controller.isLoading.value) {
-        //   return Center(child: CircularProgressIndicator());
-        // }
+      body:Consumer<AcceptedResqController>(builder: (context, controller, _) {
+          if (controller.isLoading) {
+          return Center(child: CircularProgressIndicator());
+        }
 
-        // if (controller.allUsers.isEmpty) {
-        //   return Center(child: Text("No user data found."));
-        // }
+        if (controller.allData.isEmpty) {
+          return Center(child: Text("No user data found."));
+        }
 
         return ListView.builder(
-          itemCount: 5,
+          itemCount: controller.allData.length,
           itemBuilder: (context, index) {
-            // final user = controller.allUsers[index];
+            final user = controller.allData[index];
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Card(
                 
                 child: SizedBox(
-                  height: 80,
+                  // height: 80,
                   child:Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -68,17 +65,17 @@ class _CompletedRequestsState extends State<CompletedRequests> {
                           children: [
                              Padding(
                         padding: const EdgeInsets.only(left: 5.0),
-                        child: Text('''No Name''',style: TextStyle(fontWeight:FontWeight.w800),),
+                        child: Text(user['name']??'',style: TextStyle(fontWeight:FontWeight.w800),),
                                             ),
                         InkWell(
                             onTap: () {
-                              log('''latlong is {user['latlong']}''');
-                              // openGoogleMaps(user['latlong']);
+                              // log('''latlong is {user['latlong']}''');
+                              openGoogleMaps(user['latlong']);
                             },
                             child: Row(
                               children: [
                                 Icon(Icons.location_on,),
-                                Text("Location : ",style: TextStyle(color: Colors.grey[700],fontWeight: FontWeight.bold),),
+                                Text("Location : ${user['location'] ??''}",style: TextStyle(color: Colors.grey[700],fontWeight: FontWeight.bold),),
                               ],
                             ),
                           ),
@@ -95,7 +92,7 @@ class _CompletedRequestsState extends State<CompletedRequests> {
                                 )
                                   ),
                                     TextSpan(
-                                      text: 'no note',
+                                      text: user['note']??'',
                                 style: TextStyle(
                                   color: Colors.black
                                 )
@@ -105,7 +102,29 @@ class _CompletedRequestsState extends State<CompletedRequests> {
                               ),
                             ),
                           ),
-                       
+                        Padding(
+                               padding: const EdgeInsets.only(left: 5.0),
+                            child: RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                      text: 'Status : ',
+                                style: TextStyle(
+                                  color: Colors.grey[700],
+                                  fontWeight: FontWeight.bold
+                                )
+                                  ),
+                                    TextSpan(
+                                      text: user['status']??'',
+                                style: TextStyle(
+                                  color: user['status']==null?Colors.transparent : _getStatusColor(user['status']),
+                                )
+                                  ),
+                                ],
+                              
+                              ),
+                            ),
+                          ),
                           ],
                         ),
                       ),
@@ -114,22 +133,16 @@ class _CompletedRequestsState extends State<CompletedRequests> {
                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                           Container(
-                            width: 80,
-                            padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.green,
-                              // color: _getStatusColor(),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Center(
-                              child: Text(
-                                '''Mild''',
-                                style: TextStyle(color: Colors.white),
-                                
-                              ),
-                            ),
-                                                 ),
+                           ChoiceChip(label: Text('Help deliverd'), selected: true,
+                           onSelected: (value) {
+                             controller.statusUpdate(status:3 ,id: user['id']);
+                           },
+                           ),
+                                                  ChoiceChip(label: Text('On the way'), selected: true,autofocus: true,
+                                                  onSelected: (value) {
+                                                    controller.statusUpdate(status:2 ,id: user['id']);
+                                                  },
+                                                  ),
                          
                         ],
                       ),

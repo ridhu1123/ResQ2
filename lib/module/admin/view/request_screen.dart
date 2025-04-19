@@ -75,14 +75,14 @@ class _RequestScreenState extends State<RequestScreen> {
                                             ),
                         InkWell(
                             onTap: () {
-                              log('''latlong is {user['latlong']}''');
+                              // log('''latlong is {user['latlong']}''');
                               // controller.openGoogleMaps();
-                              // openGoogleMaps(user['latlong']);
+                              openGoogleMaps(user['latlong']);
                             },
                             child: Row(
                               children: [
                                 Icon(Icons.location_on,),
-                                Text("Location : ",style: TextStyle(color: Colors.grey[700],fontWeight: FontWeight.bold),),
+                                Text("Location : ${user['location'] ??''}",style: TextStyle(color: Colors.grey[700],fontWeight: FontWeight.bold),),
                               ],
                             ),
                           ),
@@ -106,6 +106,7 @@ class _RequestScreenState extends State<RequestScreen> {
                                     color: Colors.black,overflow: TextOverflow.ellipsis
                                   )
                                     ),
+                                    
                                   ],
                                 
                                 ),
@@ -127,7 +128,7 @@ class _RequestScreenState extends State<RequestScreen> {
                                     TextSpan(
                                       text: user['status'],
                                 style: TextStyle(
-                                  color: Colors.black
+                                  color: _getStatusColor(user['status'])
                                 )
                                   ),
                                 ],
@@ -146,38 +147,57 @@ class _RequestScreenState extends State<RequestScreen> {
                           
                           children: [
                              Expanded(
-                               child: Container(
-                                width: 80,
-                                padding: EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  color: Colors.green,
-                                  // color: _getStatusColor(),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    '''Accept''',
-                                    style: TextStyle(color: Colors.white),
-                                    
+                               child: InkWell(
+                                onTap: () {
+                                  controller.accpectResQ(selectedData: user).whenComplete(
+                                    () {
+                                      controller.fetchAllUsers();
+                                    },
+                                  );
+
+                                },
+                                 child: Container(
+                                  width: 80,
+                                  padding: EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.green,
+                                    // color: _getStatusColor(),
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
-                                ),
-                                                     ),
+                                  child: Center(
+                                    child: Text(
+                                      '''Accept''',
+                                      style: TextStyle(color: Colors.white),
+                                      
+                                    ),
+                                  ),
+                                                       ),
+                               ),
                              ),
                              SizedBox(height: 5,),
                             Expanded(
-                              child: Container(
-                                width: 80,
-                                padding: EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  // color: _getStatusColor(),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    '''Reject''',
-                                    style: TextStyle(color: Colors.white),
-                                    
+                              child: InkWell(
+                                  onTap: () {
+                                  controller.rejectedResQ(selectedData: user).whenComplete(
+                                    () {
+                                      controller.fetchAllUsers();
+                                    },
+                                  );
+                                },
+                                child: Container(
+                                  width: 80,
+                                  padding: EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    // color: _getStatusColor(),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      '''Reject''',
+                                      style: TextStyle(color: Colors.white),
+                                      
+                                    ),
                                   ),
                                 ),
                               ),

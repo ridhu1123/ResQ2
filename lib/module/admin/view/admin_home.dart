@@ -4,8 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:resq_application/module/admin/controller/admin_home_controller.dart';
 import 'package:resq_application/module/admin/controller/admin_login_controller.dart';
 import 'package:resq_application/module/admin/view/admin_login.dart';
-import 'package:resq_application/module/admin/view/completed_request_screen.dart';
+import 'package:resq_application/module/admin/view/accepected_request_screen.dart';
 import 'package:resq_application/module/admin/view/first_aids_screen.dart';
+import 'package:resq_application/module/admin/view/orders_screen.dart';
 import 'package:resq_application/module/admin/view/rejected_reuestes.dart';
 import 'package:resq_application/module/admin/view/request_screen.dart';
 import 'package:resq_application/theme/theme.dart';
@@ -27,9 +28,10 @@ class _AdminHomePageState extends State<AdminHomePage> {
   }
   List<Widget> screens=[
   RequestScreen(),
-  CompletedRequests(),
+  AccepectedRequests(),
   RejectedRequest(),
-  FirstAids()
+  FirstAids(),
+  FirstAidOrders()
   ];
   // final AdminHomeController controller = Get.put(AdminHomeController());
 
@@ -125,18 +127,7 @@ borderRadius: BorderRadius.circular(10) ,
     );
   }
 
-  Color _getStatusColor(String? status) {
-    switch (status) {
-      case 'Safe':
-        return Colors.green;
-      case 'Mild':
-        return Colors.orange;
-      case 'Severe':
-        return Colors.red;
-      default:
-        return Colors.grey;
-    }
-  }
+ 
 
 Future<void> openGoogleMaps(String latLong) async {
     final parts = latLong.split(',');

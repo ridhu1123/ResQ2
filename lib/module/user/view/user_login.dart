@@ -97,8 +97,10 @@ class UserLogin extends StatelessWidget {
                         ),
                     
                           
-                              // ? const Center(child: CircularProgressIndicator())
-                              // : 
+                            controller.isLoading  ? SizedBox(
+                              width: res.screenWidth,
+                              child: const Center(child: CircularProgressIndicator()))
+                              : 
                               Padding(
                                   padding:
                                       const EdgeInsets.only(left: 110, right: 110),
@@ -106,7 +108,7 @@ class UserLogin extends StatelessWidget {
                                     onPressed: () {
                                       controller.userSignIn(userType: 0).then((value) {
                                         if (value) {
-                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>BottomNavPage()));
+                                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BottomNavPage()));
                                         }
                                       },);
                                       // authController.signIn(

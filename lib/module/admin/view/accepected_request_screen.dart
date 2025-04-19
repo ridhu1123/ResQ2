@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:resq_application/module/admin/controller/rejected_resq_controller.dart';
+import 'package:resq_application/module/admin/controller/accepted_resq_controller.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class RejectedRequest extends StatefulWidget {
+class AccepectedRequests extends StatefulWidget {
 
-  const RejectedRequest({super.key});
+  const AccepectedRequests({super.key});
 
   @override
-  State<RejectedRequest> createState() => _RejectedRequestState();
+  State<AccepectedRequests> createState() => _AccepectedRequestsState();
 }
 
-class _RejectedRequestState extends State<RejectedRequest> {
+class _AccepectedRequestsState extends State<AccepectedRequests> {
   @override
   void initState() {
-    context.read<RejectedReqController>().fetchAllCompletedResq();
+    context.read<AcceptedResqController>().fetchAllAccpectedResq();
     super.initState();
   }
 
@@ -24,18 +24,18 @@ class _RejectedRequestState extends State<RejectedRequest> {
     return Scaffold(
       backgroundColor: Color(0xff0C3B2E),
      
-      appBar: AppBar(title: Text("Rejected ResQ"),
+      appBar: AppBar(title: Text("Accepted ResQ"),
       actions: [
          IconButton(onPressed: () {
           // controller.fetchAllUsers();
         }, icon:
-         LottieBuilder.asset('assets/Animation - 1743885710865.json',repeat: context.read<RejectedReqController>().isLoading,)
+         LottieBuilder.asset('assets/Animation - 1743885710865.json',repeat: context.read<AcceptedResqController>().isLoading,)
         )
       
      
       ],
       ),
-      body:Consumer<RejectedReqController>(builder: (context, controller, _) {
+      body:Consumer<AcceptedResqController>(builder: (context, controller, _) {
           if (controller.isLoading) {
           return Center(child: CircularProgressIndicator());
         }
@@ -102,7 +102,7 @@ class _RejectedRequestState extends State<RejectedRequest> {
                               ),
                             ),
                           ),
-                           Padding(
+                        Padding(
                                padding: const EdgeInsets.only(left: 5.0),
                             child: RichText(
                               text: TextSpan(
@@ -125,7 +125,6 @@ class _RejectedRequestState extends State<RejectedRequest> {
                               ),
                             ),
                           ),
-                       
                           ],
                         ),
                       ),
@@ -134,22 +133,16 @@ class _RejectedRequestState extends State<RejectedRequest> {
                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                           Container(
-                            width: 80,
-                            padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              // color: Colors.green,
-                             color: user['status']==null?Colors.transparent : _getStatusColor(user['status']),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Center(
-                              child: Text(
-                                user['status']??'',
-                                style: TextStyle(color: Colors.white),
-                                
-                              ),
-                            ),
-                                                 ),
+                           ChoiceChip(label: Text('Help deliverd'), selected: true,
+                           onSelected: (value) {
+                             controller.statusUpdate(status:3 ,id: user['id']);
+                           },
+                           ),
+                                                  ChoiceChip(label: Text('On the way'), selected: true,autofocus: true,
+                                                  onSelected: (value) {
+                                                    controller.statusUpdate(status:2 ,id: user['id']);
+                                                  },
+                                                  ),
                          
                         ],
                       ),

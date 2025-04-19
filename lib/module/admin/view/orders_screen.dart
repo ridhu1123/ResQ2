@@ -7,10 +7,10 @@ import 'package:resq_application/theme/theme.dart';
 
 
 
-class FirstAids extends StatelessWidget {
+class FirstAidOrders extends StatelessWidget {
   // final FirstAidController controller = Get.put(FirstAidController());
 
-   const FirstAids({super.key});
+   const FirstAidOrders({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -66,25 +66,25 @@ class FirstAids extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // IconButton(
-                    //   padding: EdgeInsets.zero,
+                    IconButton(
+                      padding: EdgeInsets.zero,
                       
-                    //   icon: Icon(Icons.remove),
-                    //   onPressed: () {
-                    //   //  controller.addFirstAid(controller.firstAidImage[index], '20');
-                    //   },
-                    // ),
+                      icon: Icon(Icons.remove),
+                      onPressed: () {
+                      //  controller.addFirstAid(controller.firstAidImage[index], '20');
+                      },
+                    ),
                     Text(
                       '${item['count']??''}',
                       style: TextStyle(fontSize: 18),
                     ),
-                    // IconButton(
-                    //    padding: EdgeInsets.zero,
-                    //   icon: Icon(Icons.add),
-                    //   onPressed: () {
+                    IconButton(
+                       padding: EdgeInsets.zero,
+                      icon: Icon(Icons.add),
+                      onPressed: () {
                        
-                    //   },
-                    // ),
+                      },
+                    ),
                   ],
                 ),
                         ),

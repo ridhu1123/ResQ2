@@ -47,7 +47,11 @@ class UserHomeController extends ChangeNotifier {
    bottomIndex=index;
    notifyListeners();
   }
-
+  //0 - help requested
+  //1 - admin accpected
+  //-1 - rejected
+  //2 - on the way
+  //3 - help deliverd
   Future<void> saveResqDetails()async{
     try {
       isLoading=true;
@@ -62,7 +66,8 @@ class UserHomeController extends ChangeNotifier {
       'gender':userDetails?.gender,
       'age':userDetails?.age,
       'latlong':latlong,
-      'status':status
+      'status':status,
+      'deliver_status':0
       }
       );
       clearController();

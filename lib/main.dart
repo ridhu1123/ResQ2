@@ -6,12 +6,15 @@ import 'package:provider/provider.dart';
 import 'package:resq_application/constants/app_constants.dart';
 import 'package:resq_application/module/admin/controller/admin_home_controller.dart';
 import 'package:resq_application/module/admin/controller/admin_login_controller.dart';
+import 'package:resq_application/module/admin/controller/accepted_resq_controller.dart';
+import 'package:resq_application/module/admin/controller/rejected_resq_controller.dart';
 import 'package:resq_application/module/admin/view/admin_home.dart';
 import 'package:resq_application/module/user/controller/user_home_controller.dart';
 import 'package:resq_application/module/user/controller/user_login_controller.dart';
 import 'package:resq_application/module/user/view/bottom_navigation.dart';
 import 'package:resq_application/module/user/view/user_home.dart';
 import 'package:resq_application/module/user/view/user_login.dart';
+import 'package:resq_application/module/voulnteer/view/voulnteer_home.dart';
 import 'package:resq_application/module/voulnteer/view/voulnteer_login.dart';
 import 'package:resq_application/theme/theme.dart';
 void main() async{
@@ -24,6 +27,8 @@ void main() async{
         ChangeNotifierProvider(create: (_) => UserHomeController()),
         ChangeNotifierProvider(create: (_) => AdminLoginController()),
         ChangeNotifierProvider(create: (_) => AdminHomeController()),
+        ChangeNotifierProvider(create: (_) => AcceptedResqController()),
+        ChangeNotifierProvider(create: (_) => RejectedReqController()),
         // Add other providers here   
       ],
       child: MyApp(),
@@ -67,7 +72,7 @@ class _SplashScreenState extends State<SplashScreen> {
         case 1:
          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AdminHomePage()));
        case 2:
-         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>VoulnteerLogin()));
+         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>VoulnteerHome()));
 
        default:
          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>UserLogin()));

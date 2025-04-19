@@ -81,8 +81,11 @@ class AdminLogin extends StatelessWidget {
                         ),
                        
                           // return 
-                          //     ? const CircularProgressIndicator()
-                          //     : 
+                          controller.isLoading
+                              ? SizedBox(
+                                width: res.screenWidth,
+                                child: Center(child: const CircularProgressIndicator()))
+                              : 
                               Padding(
                                   padding:
                                       const EdgeInsets.only(left: 110, right: 110),
@@ -91,7 +94,7 @@ class AdminLogin extends StatelessWidget {
                                       context.read<UserLoginController>().userSignIn(userType: 1).then(
                                         (value) {
                                           if (value) {
-                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>AdminHomePage()));
+                                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AdminHomePage()));
                                             
                                           }
                                         },

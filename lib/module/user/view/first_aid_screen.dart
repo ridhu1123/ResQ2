@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:resq_application/module/admin/controller/admin_home_controller.dart';
 import 'package:resq_application/module/user/controller/user_home_controller.dart';
 import 'package:resq_application/module/user/widget/first_aid_details_screen.dart';
 import 'package:resq_application/theme/theme.dart';
@@ -68,11 +69,21 @@ class FirstAidController extends GetxController {
 //   }
 }
 
-class FirstAidPage extends StatelessWidget {
+class FirstAidPage extends StatefulWidget {
   // final FirstAidController controller = Get.put(FirstAidController());
 
    const FirstAidPage({super.key});
 
+  @override
+  State<FirstAidPage> createState() => _FirstAidPageState();
+}
+
+class _FirstAidPageState extends State<FirstAidPage> {
+  @override
+  void initState() {
+    // context.read<AdminHomeController>().fetchAllFirstAids();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,7 +96,7 @@ class FirstAidPage extends StatelessWidget {
         ),
       ),
       body: 
-        Consumer<UserHomeController>(
+        Consumer<AdminHomeController>(
           builder: (context,controller,_) {
             return GridView.builder(
               padding: EdgeInsets.all(10),
@@ -93,15 +104,15 @@ class FirstAidPage extends StatelessWidget {
                 crossAxisCount: 2,
                 childAspectRatio: 0.9,
               ),
-              itemCount: 5,
+              itemCount: controller.fistAidsList.length,
               itemBuilder: (context, index) {
-                // final item = controller.items[index];
+                final item = controller.fistAidsList[index];
                 // final isSelected =
                 //     controller.selectedItems.contains(item['id'].toString());
             
                 return GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductDetailPage(image: controller.firstAidImage[index],)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductDetailPage(image: item['image_url'],rate: item['rate'],count: item['count'],id: item['id'],)));
                     // controller.toggleSelection(['id'].toString());
                   },
                   child: Card(
@@ -115,13 +126,16 @@ class FirstAidPage extends StatelessWidget {
                     child: Column(
                       children: [
                         Expanded(
-                          child: Image.asset(
-                          controller.firstAidImage[index] ,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              // print("Error loading image: ${item['image_url']}");
-                              return Icon(Icons.error, color: Colors.red);
-                            },
+                          child: ClipRRect(
+                            borderRadius:BorderRadius.circular(10) ,
+                            child: Image.asset(
+                             item['image_url'],
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                // print("Error loading image: ${item['image_url']}");
+                                return Icon(Icons.error, color: Colors.red);
+                              },
+                            ),
                           ),
                         ),
                         Padding(
