@@ -19,6 +19,7 @@ class _RequestScreenState extends State<RequestScreen> {
   @override
   void initState() {
     // TODO: implement initState
+    context.read<AdminHomeController>().fetchAllUsers();
     super.initState();
   }
 
@@ -31,33 +32,34 @@ class _RequestScreenState extends State<RequestScreen> {
       actions: [
         
              IconButton(onPressed: () {
-          // controller.fetchAllUsers();
+          context.read<AdminHomeController>().fetchAllUsers();
         }, icon:
-         LottieBuilder.asset('assets/Animation - 1743885710865.json',)
+         LottieBuilder.asset('assets/Animation - 1743885710865.json',repeat: context.read<AdminHomeController>().isLoading,)
         )
         
      
       ],
       ),
       body:Consumer<AdminHomeController>(builder: (context, controller, _) {
-        //   if (controller.isLoading.value) {
-        //   return Center(child: CircularProgressIndicator());
-        // }
+          if (controller.isLoading) {
+          return Center(child: CircularProgressIndicator());
+        }
 
-        // if (controller.allUsers.isEmpty) {
-        //   return Center(child: Text("No user data found."));
-        // }
+        if (controller.allData.isEmpty) {
+          return Center(child: Text("No user data found."));
+        }
 
         return ListView.builder(
-          itemCount: 5,
+          itemCount: controller.allData.length,
           itemBuilder: (context, index) {
-            // final user = controller.allUsers[index];
+            final user = controller.allData[index];
+
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Card(
                 
                 child: SizedBox(
-                  height: 100,
+                  // height: 100,
                   child:Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -69,11 +71,12 @@ class _RequestScreenState extends State<RequestScreen> {
                           children: [
                              Padding(
                         padding: const EdgeInsets.only(left: 5.0),
-                        child: Text('''No Name''',style: TextStyle(fontWeight:FontWeight.w800),),
+                        child: Text(user['name'],style: TextStyle(fontWeight:FontWeight.w800),),
                                             ),
                         InkWell(
                             onTap: () {
                               log('''latlong is {user['latlong']}''');
+                              // controller.openGoogleMaps();
                               // openGoogleMaps(user['latlong']);
                             },
                             child: Row(
@@ -85,24 +88,27 @@ class _RequestScreenState extends State<RequestScreen> {
                           ),
                              Padding(
                                padding: const EdgeInsets.only(left: 5.0),
-                            child: RichText(
-                              text: TextSpan(
-                                children: [
-                                  TextSpan(
-                                      text: 'Note : ',
-                                style: TextStyle(
-                                  color: Colors.grey[700],
-                                  fontWeight: FontWeight.bold
-                                )
-                                  ),
+                            child: Tooltip(
+                              message: user['note'],
+                              child: RichText(
+                                text: TextSpan(
+                                  children: [
                                     TextSpan(
-                                      text: 'no note',
-                                style: TextStyle(
-                                  color: Colors.black
-                                )
-                                  ),
-                                ],
-                              
+                                        text: 'Note : ',
+                                  style: TextStyle(
+                                    color: Colors.grey[700],
+                                    fontWeight: FontWeight.bold
+                                  )
+                                    ),
+                                      TextSpan(
+                                        text: user['note'],
+                                  style: TextStyle(
+                                    color: Colors.black,overflow: TextOverflow.ellipsis
+                                  )
+                                    ),
+                                  ],
+                                
+                                ),
                               ),
                             ),
                           ),
@@ -119,7 +125,7 @@ class _RequestScreenState extends State<RequestScreen> {
                                 )
                                   ),
                                     TextSpan(
-                                      text: 'Mild',
+                                      text: user['status'],
                                 style: TextStyle(
                                   color: Colors.black
                                 )
@@ -134,48 +140,51 @@ class _RequestScreenState extends State<RequestScreen> {
                       ),
                    Padding(
                      padding: const EdgeInsets.all(8.0),
-                     child: Column(
-                        
-                        children: [
-                           Expanded(
-                             child: Container(
-                              width: 80,
-                              padding: EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: Colors.green,
-                                // color: _getStatusColor(),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  '''Accept''',
-                                  style: TextStyle(color: Colors.white),
-                                  
+                     child: SizedBox(
+                      height: 80,
+                       child: Column(
+                          
+                          children: [
+                             Expanded(
+                               child: Container(
+                                width: 80,
+                                padding: EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: Colors.green,
+                                  // color: _getStatusColor(),
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
-                              ),
-                                                   ),
-                           ),
-                           SizedBox(height: 5,),
-                          Expanded(
-                            child: Container(
-                              width: 80,
-                              padding: EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: Colors.red,
-                                // color: _getStatusColor(),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  '''Reject''',
-                                  style: TextStyle(color: Colors.white),
-                                  
+                                child: Center(
+                                  child: Text(
+                                    '''Accept''',
+                                    style: TextStyle(color: Colors.white),
+                                    
+                                  ),
+                                ),
+                                                     ),
+                             ),
+                             SizedBox(height: 5,),
+                            Expanded(
+                              child: Container(
+                                width: 80,
+                                padding: EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  // color: _getStatusColor(),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    '''Reject''',
+                                    style: TextStyle(color: Colors.white),
+                                    
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
+                          ],
+                        ),
+                     ),
                    ),
                     ],
                   )

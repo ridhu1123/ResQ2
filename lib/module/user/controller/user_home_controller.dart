@@ -1,10 +1,11 @@
 
-import 'dart:convert';
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart' as AppSettings;
 import 'package:resq_application/module/user/model/user_details_model.dart';
 
 class UserHomeController extends ChangeNotifier {
@@ -15,6 +16,12 @@ class UserHomeController extends ChangeNotifier {
    
   FirebaseFirestore firebaseFirestore=FirebaseFirestore.instance;
   FirebaseAuth firebaseAuth=FirebaseAuth.instance;
+  Position? currentPosition; // nullable reactive position
+  bool isLoadingLocation =false;
+  String? locationError;
+  String? latlong;
+  String? streetName;
+  String? localityName;
   TextEditingController noteController=TextEditingController();
   TextEditingController nameController=TextEditingController();
   TextEditingController locationController=TextEditingController();
@@ -54,6 +61,7 @@ class UserHomeController extends ChangeNotifier {
       'blood_group':userDetails?.bloodGroup,
       'gender':userDetails?.gender,
       'age':userDetails?.age,
+      'latlong':latlong,
       'status':status
       }
       );
@@ -142,4 +150,76 @@ Future<void> getUserDetails() async {
 
   notifyListeners();
  } 
+
+ Future<void> fetchCurrentLocation() async {
+    isLoadingLocation= true;
+    locationError= '';
+    streetName = '';
+    localityName = '';
+
+    try {
+      // Check if location services are enabled
+      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
+        locationError = 'Location services are disabled.';
+        isLoadingLocation = false;
+        notifyListeners();
+        return;
+      }
+
+      // Check and request permissions
+      LocationPermission permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          locationError = 'Location permission is denied';
+          isLoadingLocation = false;
+          notifyListeners();
+          return;
+        }
+      }
+
+      if (permission == LocationPermission.deniedForever) {
+        locationError = 'Location permission is permanently denied. Please enable it from app settings.';
+        await AppSettings.openAppSettings();
+        isLoadingLocation = false;
+        notifyListeners();
+        return;
+      }
+
+      // Get current position
+      currentPosition = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+
+      log('Current position: ${currentPosition?.latitude}');
+      latlong='${currentPosition?.latitude},${currentPosition?.longitude}';
+      // Reverse geocoding
+    List<Placemark> placemarks = await placemarkFromCoordinates(
+  currentPosition!.latitude,
+  currentPosition!.longitude,
+);
+
+if (placemarks.isNotEmpty) {
+  final place = placemarks.first;
+  streetName = '${place.street},${place.locality},${place.administrativeArea}';
+  // localityName.value = place.locality ?? '';
+  // log('Street: ${streetName.value}, Locality: ${localityName.value}');
+   log('Current position: $streetName');
+  isLoadingLocation = false;
+  notifyListeners();
+}
+isLoadingLocation = false;
+notifyListeners();
+
+    } catch (e) {
+      locationError = 'Failed to get location: $e';
+      isLoadingLocation = false;
+      notifyListeners();
+      // print('Location fetch error: $e');
+    } finally {
+      isLoadingLocation = false;
+      notifyListeners();
+    }
+  }
 }
