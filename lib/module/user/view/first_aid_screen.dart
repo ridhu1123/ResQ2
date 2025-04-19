@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:resq_application/module/user/controller/user_home_controller.dart';
+import 'package:resq_application/module/user/widget/first_aid_details_screen.dart';
 import 'package:resq_application/theme/theme.dart';
 
 class FirstAidController extends GetxController {
@@ -100,6 +101,7 @@ class FirstAidPage extends StatelessWidget {
             
                 return GestureDetector(
                   onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductDetailPage(image: controller.firstAidImage[index],)));
                     // controller.toggleSelection(['id'].toString());
                   },
                   child: Card(

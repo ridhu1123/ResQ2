@@ -6,12 +6,26 @@ import 'package:resq_application/theme/theme.dart';
 import 'package:resq_application/widget/custom_textfeild.dart';
 
 
-class UserHome extends StatelessWidget {
+class UserHome extends StatefulWidget {
  
+
+  const UserHome({super.key});
+
+  @override
+  State<UserHome> createState() => _UserHomeState();
+}
+
+class _UserHomeState extends State<UserHome> {
   final TextEditingController nameController = TextEditingController();
+
   final TextEditingController locationController = TextEditingController();
+
   final TextEditingController noteController = TextEditingController();
-  UserHome({super.key});
+  @override
+  void initState() {
+    super.initState();
+    context.read<UserHomeController>().fetchCurrentLocation();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +40,7 @@ class UserHome extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    "Welcome, ${'User'}!",
+                    "Welcome, ${controller.userDetails?.name}!",
                     style: const TextStyle(fontSize: 20),
                   ),
                   const Text('No emergency alerts'),
@@ -43,7 +57,15 @@ class UserHome extends StatelessWidget {
             //   );
             // }
           
-             Container(
+           controller.isLoadingLocation?
+           SizedBox(
+             height: res.width(0.35),
+              width: res.width(0.9),
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+           )
+           :  Container(
               height: res.width(0.35),
               width: res.width(0.9),
               decoration: BoxDecoration(
@@ -65,10 +87,10 @@ class UserHome extends StatelessWidget {
                     const Icon(Icons.location_city_outlined, color: Colors.white, size: 35),
                     SizedBox(width: res.width(0.02)),
                     Text(
-                      // homecontroller.streetName.value.isNotEmpty
-                      //     ? homecontroller.streetName.value
-                      //     : 
-                          "Fetching location...",
+                      controller.streetName==null
+                          ?  "Fetching location..."
+                          : controller.streetName.toString()
+                         ,
                       style: AppTextStyles.bodyLargeWhite,
                     ),
                   ],
