@@ -21,9 +21,10 @@ class ProductDetailPageState extends State<ProductDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Product Detail"),
-        centerTitle: true,
-        backgroundColor: Colors.blueAccent,
+        title: Text("First Aid Detail",style: TextStyle(color: Colors.white),),
+        // centerTitle: true,
+        foregroundColor: Colors.white,
+        backgroundColor:Color(0xff0C3B2E) ,
       ),
       body: Consumer<AdminHomeController>(
         builder: (context,controller,_) {
@@ -118,14 +119,16 @@ class ProductDetailPageState extends State<ProductDetailPage> {
                     ),
           
                     // Buy Button
-                    ElevatedButton(
+                    controller.buyLoad?
+                    CircularProgressIndicator()
+                    :ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         padding:
                             EdgeInsets.symmetric(horizontal: 30, vertical: 12),
-                        backgroundColor: Colors.blueAccent,
+                        backgroundColor: Color(0xff0C3B2E),
                       ),
                       onPressed: () {
-                       controller.changeFirsAidCount(changeCount: quantity,count: widget.count,id:widget.id ).whenComplete(() {
+                       controller.changeFirsAidCount(changeCount: quantity,id:widget.id ).whenComplete(() {
                           controller.fetchAllFirstAids();
                           quantity=1;
                         },);

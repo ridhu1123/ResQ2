@@ -190,14 +190,16 @@ Future<void> fetchAllFirstAids() async {
     notifyListeners();
   }
 }
+
 bool buyLoad=false;
-Future<void>changeFirsAidCount({String? id,int changeCount=0,int count=0})async{
-   final totalCount=count-changeCount;
+Future<void>changeFirsAidCount({String? id,int changeCount=0})async{
+    
    buyLoad=true;
    notifyListeners();
    await firebaseFirestore.collection('first_aids').doc(id).update(
       {
-      'count':totalCount
+      'ordered_count':changeCount,
+      
       }
       );
 buyLoad=false;

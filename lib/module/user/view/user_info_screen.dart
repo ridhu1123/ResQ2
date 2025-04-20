@@ -60,57 +60,43 @@ class UserInfo extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 25, right: 25),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 300),
-                          child: Text(
-                            'Name',
-                            style: AppTextStyles.bodyLargeBlack,
-                          ),
+                        Text(
+                          'Name',
+                          style: AppTextStyles.bodyLargeBlack,
                         ),
                          CustomTextField(hintText: 'What should we call you',controller: controller.nameController,),
                         SizedBox(
                           height: res.width(0.03),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 300),
-                          child: Text(
-                            'Phone',
-                            style: AppTextStyles.bodyLargeBlack,
-                          ),
+                        Text(
+                          'Phone',
+                          style: AppTextStyles.bodyLargeBlack,
                         ),
                          CustomTextField(hintText: '10 digit Phone number',controller: controller.phoneController,),
                         SizedBox(
                           height: res.width(0.03),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 250),
-                          child: Text(
-                            'Blood Group',
-                            style: AppTextStyles.bodyLargeBlack,
-                          ),
+                        Text(
+                          'Blood Group',
+                          style: AppTextStyles.bodyLargeBlack,
                         ),
                          CustomTextField(hintText: 'B+',controller: controller.bloodGroupController,),
                         SizedBox(
                           height: res.width(0.03),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 290),
-                          child: Text(
-                            'Gender',
-                            style: AppTextStyles.bodyLargeBlack,
-                          ),
+                        Text(
+                          'Gender',
+                          style: AppTextStyles.bodyLargeBlack,
                         ),
                          CustomTextField(hintText: 'male',controller: controller.genderController,),
                         SizedBox(
                           height: res.width(0.03),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 310),
-                          child: Text(
-                            'Age',
-                            style: AppTextStyles.bodyLargeBlack,
-                          ),
+                        Text(
+                          'Age',
+                          style: AppTextStyles.bodyLargeBlack,
                         ),
                          CustomTextField(hintText: 'Age in years',controller: controller.ageController,),
                       ],

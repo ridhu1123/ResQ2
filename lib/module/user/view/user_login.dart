@@ -101,9 +101,9 @@ class UserLogin extends StatelessWidget {
                               width: res.screenWidth,
                               child: const Center(child: CircularProgressIndicator()))
                               : 
-                              Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 110, right: 110),
+                              SizedBox(
+                                width: res.screenWidth,
+                                child: Center(
                                   child: ElevatedButton(
                                     onPressed: () {
                                       controller.userSignIn(userType: 0).then((value) {
@@ -128,6 +128,7 @@ class UserLogin extends StatelessWidget {
                                     child: const Text("Log In"),
                                   ),
                                 ),
+                              ),
                         
                         // Padding(
                         //   padding: const EdgeInsets.only(left: 100, right: 100),
