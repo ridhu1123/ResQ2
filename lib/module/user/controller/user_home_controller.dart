@@ -149,6 +149,39 @@ void populateUserDetails() {
   }
 }
 
+bool isProileLoading = false;
+Future<void> getUserDetailsOnInit() async {
+  final uid = firebaseAuth.currentUser?.uid;
+isProileLoading = true;
+  if (uid == null) {
+    log('User is not logged in');
+    isProileLoading = false;
+    notifyListeners();
+    return;
+  }
+
+  try {
+    final doc = await firebaseFirestore.collection('users').doc(uid).get();
+    final data = doc.data();
+
+    if (data != null) {
+      userDetails = UserDetailsModel.fromJson(data); 
+      log('User Name: ${userDetails?.name}');
+      populateUserDetails();
+          isProileLoading = false;
+    notifyListeners();
+    } else {
+      log('No user document found.');
+          isProileLoading = false;
+    notifyListeners();
+    }
+  } catch (e) {
+        isProileLoading = false;
+    notifyListeners();
+    log('Something went wrong $e');
+  }
+}
+
  void changeStatus() {
     if (status == 'Safe') {
       status = 'Mild';

@@ -7,14 +7,29 @@ import 'package:resq_application/theme/theme.dart';
 import 'package:resq_application/widget/custom_textfeild.dart';
 
 
-class UserInfo extends StatelessWidget {
+class UserInfo extends StatefulWidget {
   UserInfo({super.key});
+
+  @override
+  State<UserInfo> createState() => _UserInfoState();
+}
+
+class _UserInfoState extends State<UserInfo> {
   final TextEditingController nameController = TextEditingController();
+
   final TextEditingController phoneController = TextEditingController();
+
   final TextEditingController bloodGroupController = TextEditingController();
+
   final TextEditingController genderController = TextEditingController();
+
   final TextEditingController ageController = TextEditingController();
 
+@override
+  void initState() {
+    context.read<UserHomeController>().getUserDetailsOnInit();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     final res = ResponsiveHelper(context);
@@ -44,7 +59,7 @@ class UserInfo extends StatelessWidget {
       backgroundColor: const Color(0xffF9FBFA),
       body: Consumer<UserHomeController>(
         builder: (context,controller,_) {
-          return Center(
+          return controller.isProileLoading ? Center(child: CircularProgressIndicator()) : Center(
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
