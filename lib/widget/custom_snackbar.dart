@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:resq_application/constants/app_constants.dart';
 
@@ -12,7 +13,7 @@ class CustomSnackBar {
       _scaffoldMessengerKey;
 
 
-  static void success(String message, {Color? backgroundColor}) {
+  static void success(String message, {Color? backgroundColor,int seconds = 3}) {
     _scaffoldMessengerKey.currentState?.showSnackBar(
       SnackBar(
         content: Text(
@@ -27,7 +28,7 @@ class CustomSnackBar {
         behavior: SnackBarBehavior.floating,
         margin: const EdgeInsets.all(16),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        duration: const Duration(seconds: 3),
+        duration:  Duration(seconds: seconds),
       ),
     );
   }
@@ -52,89 +53,102 @@ class CustomSnackBar {
       ),
     );
   }
+
+
+
 }
 
-// class CustomSnackBar {
-//   static void show({
-//     required String title,
-//     required String message,
-//   }) {
-//     final context = AppConstants. rootScaffoldMessengerKey.currentState?.overlay?.context;
-//     if (context == null) {
- 
-//       return;
-//     }
-
-//     final snackBar = SnackBar(
-//       behavior: SnackBarBehavior.floating,
-//       backgroundColor: Colors.black87,
-//       shape: RoundedRectangleBorder(
-//         borderRadius: BorderRadius.circular(12),
-//       ),
-//       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-//       duration: const Duration(seconds: 3),
-//       content: Column(
-//         mainAxisSize: MainAxisSize.min,
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Text(
-//             title,
-            // style: const TextStyle(
-            //   fontWeight: FontWeight.bold,
-            //   fontSize: 16,
-            //   color: Colors.white,
-            // ),
-//           ),
-//           const SizedBox(height: 4),
-//           Text(
-//             message,
-//             style: const TextStyle(color: Colors.white),
-//           ),
-//         ],
-//       ),
-//     );
-
-//     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-//   }
-// }
 
 
-// class CustomSnackBar {
-//   static void show({
-//     required String title,
-//     required String message,
-//   }) {
-//     final snackBar = SnackBar(
-//       behavior: SnackBarBehavior.floating,
-//       backgroundColor: Colors.black87,
-//       shape: RoundedRectangleBorder(
-//         borderRadius: BorderRadius.circular(12),
-//       ),
-//       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-//       duration: const Duration(seconds: 3),
-//       content: Column(
-//         mainAxisSize: MainAxisSize.min,
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Text(
-//             title,
-//             style: const TextStyle(
-//               fontWeight: FontWeight.bold,
-//               fontSize: 16,
-//               color: Colors.white,
-//             ),
-//           ),
-//           const SizedBox(height: 4),
-//           Text(
-//             message,
-//             style: const TextStyle(color: Colors.white),
-//           ),
-//         ],
-//       ),
-//     );
 
-// //  AppConstants(). rootScaffoldMessengerKey.currentState
-// //       ?..hideCurrentSnackBar()
-// //       ..s(snackBar);
-//   }
-// }
+class CustomAlertPopUp {
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static late AudioPlayer _audioPlayer;
+
+  // Method to play sound
+  static Future<void> _playNotificationSound() async {
+    try {
+      _audioPlayer = AudioPlayer();
+      await _audioPlayer.play(AssetSource('songs/notification_sound.mp3')); // Your audio file path
+    } catch (e) {
+      print("⚠️ Error playing sound: $e");
+    }
+  }
+
+  // Method to stop sound
+  static Future<void> _stopNotificationSound() async {
+    try {
+      await _audioPlayer.stop();
+    } catch (e) {
+      print("⚠️ Error stopping sound: $e");
+    }
+  }
+
+  // Method to show the alert dialog with the "STOP" button
+  static void showPersistentDialog({String? message}) {
+    // Play the notification sound when the dialog is shown
+    _playNotificationSound();
+
+    showDialog(
+      context: navigatorKey.currentContext!,
+      barrierDismissible: false, // Prevent closing by tapping outside
+      builder: (BuildContext context) {
+        return WillPopScope(
+          onWillPop: () async => false, // Disable back button
+          child: Dialog(
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: SizedBox(
+              height: 250,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                   '🚨 Emergency Alert',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    child: Text(
+                      message ?? '',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                          SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      _stopNotificationSound(); // Stop the sound when the button is pressed
+                      Navigator.of(context).pop(); // Close the dialog
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: CircleBorder(),
+                      padding: EdgeInsets.all(40),
+                      backgroundColor: Colors.red,
+                    ),
+                    child: Text(
+                      'STOP',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+
+
+

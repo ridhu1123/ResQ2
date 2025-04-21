@@ -1,6 +1,10 @@
+import 'dart:developer';
+
+import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:resq_application/widget/custom_snackbar.dart';
 
 class NotificationManager {
   static final FirebaseMessaging _messaging = FirebaseMessaging.instance;
@@ -17,7 +21,17 @@ class NotificationManager {
     FirebaseMessaging.onMessage.listen(_handleMessage);
 
     // 📥 Handle background/terminated notification taps
-    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      
+    final type = message.data['type'] as String;
+    if(type == 'rescue'){
+CustomSnackBar.success('🚨 Help \nAlert: ${message.notification?.body}',seconds: 30);
+      return;
+    }
+      // CustomSnackBar.error('🔔 Notification Received:');
+ CustomSnackBar.error('🚨 Emergency Alert: ${message.notification?.body}');
+  CustomAlertPopUp.showPersistentDialog(message: message.notification?.body);
+    },);
 
     // 🕐 Handle cold start (when app opened from terminated state via notification)
     RemoteMessage? initialMessage = await _messaging.getInitialMessage();
@@ -32,13 +46,31 @@ class NotificationManager {
 
   /// Log message content
   static void _handleMessage(RemoteMessage message) {
-    print("🔔 Notification Received:");
-    print("Title: ${message.notification?.title}");
-    print("Body: ${message.notification?.body}");
-    print("Data: ${message.data}");
+    log("🔔 Notification Received: ${message.data}");
+
+    final type = message.data['type'] as String;
+    if(type == 'rescue'){
+CustomSnackBar.success('🚨 Help \nAlert: ${message.notification?.body}',seconds: 30);
+      return;
+    }
+      CustomSnackBar.error('🚨 Emergency Alert: ${message.notification?.body}');
+  CustomAlertPopUp.showPersistentDialog(message: message.notification?.body);
+    // _playNotificationSound();
+  }
+    // print("🔔 Notification Received:");
+    // print("Title: ${message.notification?.title}");
+    // print("Body: ${message.notification?.body}");
+    // print("Data: ${message.data}");
 
     // Play custom sound if needed
-    _playNotificationSound();
+
+
+    /// Log message content
+  static void _handleMessagebaground(RemoteMessage message) {
+
+
+    // // Play custom sound if needed
+    // _playNotificationSound();
   }
 
   /// Update FCM token in Firestore
@@ -53,14 +85,14 @@ class NotificationManager {
     }
   }
 
-  /// Play custom sound using assets
+
   static Future<void> _playNotificationSound() async {
-    // try {
-    //   final player = AudioPlayer(); // Requires audioplayers package
-    //   await player.play(AssetSource('sounds/patrickuklar.mp3'));
-    //   print("🔊 Played custom notification sound.");
-    // } catch (e) {
-    //   print("⚠️ Error playing sound: $e");
-    // }
+    try {
+      final player = AudioPlayer(); // Requires audioplayers package
+      await player.play(AssetSource('songs/notification_sound.mp3'));
+
+    } catch (e) {
+      print("⚠️ Error playing sound: $e");
+    }
   }
 }

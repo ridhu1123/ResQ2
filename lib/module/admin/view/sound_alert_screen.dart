@@ -1,32 +1,16 @@
 import 'dart:developer';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:resq_application/genarte_key.dart';
 import 'package:resq_application/module/admin/model/userlist_model.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:resq_application/module/admin/services/send_notifcation_sevices.dart';
+import 'package:resq_application/module/admin/service/service_notifcation.dart';
+import 'package:resq_application/module/user/view/user_register.dart';
 
 
 
 
-// void _sendAlertNotification() async {
-//   final selectedUsers = _selectedUsers;
-//   final fcmTokens = selectedUsers
-//       .map((user) => user.fcmToken)
-//       .where((token) => token != null && token.isNotEmpty)
-//       .cast<String>()
-//       .toList();
-
-//   if (fcmTokens.isEmpty) {
-//     print('⚠️ No FCM tokens found');
-//     return;
-//   }
-
-  
-// }
 
 
 class SoundAlertScreen extends StatefulWidget {
@@ -42,13 +26,40 @@ class _SoundAlertScreenState extends State<SoundAlertScreen> {
   final Set<String> _selectedUserEmails =
       {}; // We'll use email as unique identifier
   String? _selectedDistrict; // Store selected district
-  final List<String> district = [
-    "Idukki",
-    "Alappuzha",
-    "Kannur",
-    "Kochi",
-  ]; // List of districts
+// List of districts
   bool _selectAll = false; // To track select all status
+bool _isSending = false;
+
+
+void _sendAlertNotification() async {
+  setState(() {
+    _isSending = true;
+  });
+
+  final selectedUsers = _selectedUsers;
+  final fcmTokens = selectedUsers
+      .map((user) => user.fcmToken)
+      .where((token) => token != null && token.isNotEmpty)
+      .cast<String>()
+      .toList();
+
+  if (fcmTokens.isEmpty) {
+log('fcm is empty');
+  } else {
+    final notificationService = SendNotificationService();
+    await notificationService.sendNotificationToUsers(
+      fcmTokens: fcmTokens,
+      title: '🚨 Emergency Alert',
+      body: 'Help on the way please stay safe!',
+      type: 'alert'
+    );
+  }
+
+  setState(() {
+    _isSending = false;
+  });
+}
+
 
   @override
   void initState() {
@@ -73,7 +84,7 @@ class _SoundAlertScreenState extends State<SoundAlertScreen> {
           .map((doc) => UserModel.fromMap(doc.data() as Map<String, dynamic>))
           .toList();
     } catch (e) {
-      print("❌ Error fetching users: $e");
+ 
       throw Exception("Failed to fetch users");
     }
   }
@@ -222,23 +233,12 @@ class _SoundAlertScreenState extends State<SoundAlertScreen> {
 
       bottomSheet:
           _selectedUserEmails.isNotEmpty
-              ? CupertinoButton(
+              ? _isSending ? CircularProgressIndicator(): CupertinoButton(
                 onPressed: () async {
-                  // final data = await get_server_key().server_token();
+                  
+                  _sendAlertNotification();
 
-                  // log('Server key: $data');
-
-           final notificationService = SendNotificationService();
-  await notificationService.sendNotificationToUsers(
-    fcmTokens: ['f4y5pU7KQIuIBZUtL_nGs4:APA91bFGdKTHV80KHzqZUV8jxFWbmIErapqz1L_WaHMJ-ushH52nXXrVUibiV-ucf1ffpljIlVjwlIU_uicbKyjV49Q45yriIyQeRgEdmhDFm1B9zPhPGqU'],
-    title: 'Emergency Alert 🚨',
-    body: 'A nearby user may need help. Please check in!',
-  );
-                  //               final selected = _selectedUsers;
-                  // print("📦 Selected Users:");
-                  // for (var u in selected) {
-                  //   log("${u.name ?? "Unnamed"} (${u.email})");
-                  // }
+                    // CustomAlertPopUp.showPersistentDialog(message: 'Thuder s');
                 },
                 minSize: 0,
                 padding: EdgeInsets.zero,
@@ -271,6 +271,9 @@ class _SoundAlertScreenState extends State<SoundAlertScreen> {
     );
   }
 }
+
+
+
 
 
 // class SoundAlertScreen extends StatefulWidget {

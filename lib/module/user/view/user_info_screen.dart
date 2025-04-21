@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:resq_application/module/user/controller/user_home_controller.dart';
 import 'package:resq_application/module/user/controller/user_login_controller.dart';

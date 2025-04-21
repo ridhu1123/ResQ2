@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:resq_application/module/admin/service/service_notifcation.dart';
+import 'package:resq_application/module/user/model/user_details_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AdminHomeController extends ChangeNotifier {
@@ -77,6 +79,24 @@ Future<void>accpectResQ({Map<String, dynamic>? selectedData})async{
  try {
       isLoading=true;
       notifyListeners();
+     
+       final doc = await firebaseFirestore.collection('users').doc(selectedData?['user_id']).get();
+    final data = doc.data();
+log( 'user data ${data}');
+
+
+    if (data != null) {
+    final  userDetails = UserDetailsModel.fromJson(data); 
+
+      final notificationService = SendNotificationService();
+    await notificationService.sendNotificationToUsers(
+      fcmTokens: [data['fcm_token']],
+      title: '🚨 Emergency Alert',
+      body: 'Help on the way please stay safe!',
+      type: 'rescue',
+
+    );
+    }
        await firebaseFirestore.collection('accpected_resq').doc().set(
       {
       'name':selectedData?['name'],

@@ -56,10 +56,17 @@ class UserHomeController extends ChangeNotifier {
     try {
       isLoading=true;
       notifyListeners();
+  final uid = firebaseAuth.currentUser?.uid;
+       final doc = await firebaseFirestore.collection('users').doc(uid).get();
+    final data = doc.data();
+await fetchCurrentLocation();
+    if (data != null) {
+      userDetails = UserDetailsModel.fromJson(data); 
+    }
        await firebaseFirestore.collection('resQ details').doc().set(
       {
-      'name':name,
-      'location':location,
+      'name':userDetails?.name,
+      'location':location ?? streetName,
       'note':note,
       'phone':userDetails?.phone,
       'blood_group':userDetails?.bloodGroup,
@@ -67,7 +74,8 @@ class UserHomeController extends ChangeNotifier {
       'age':userDetails?.age,
       'latlong':latlong,
       'status':status,
-      'deliver_status':0
+      'deliver_status':0,
+      'user_id':uid,
       }
       );
       clearController();
@@ -122,6 +130,7 @@ Future<void> getUserDetails() async {
     if (data != null) {
       userDetails = UserDetailsModel.fromJson(data); 
       log('User Name: ${userDetails?.name}');
+      populateUserDetails();
     } else {
       log('No user document found.');
     }
@@ -129,6 +138,17 @@ Future<void> getUserDetails() async {
     log('Something went wrong $e');
   }
 }
+
+void populateUserDetails() {
+  if (userDetails != null) {
+    nameController.text = userDetails!.name ?? '';
+    phoneController.text = userDetails!.phone ?? '';
+    bloodGroupController.text = userDetails!.bloodGroup ?? '';
+    genderController.text = userDetails!.gender ?? '';
+    ageController.text = userDetails!.age ?? '';
+  }
+}
+
  void changeStatus() {
     if (status == 'Safe') {
       status = 'Mild';

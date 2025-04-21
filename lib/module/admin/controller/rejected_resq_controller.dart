@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+
 class RejectedReqController extends ChangeNotifier {
 FirebaseFirestore firebaseFirestore=FirebaseFirestore.instance;
 List <Map<String, dynamic>> allData=[];

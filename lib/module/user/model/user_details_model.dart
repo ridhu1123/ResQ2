@@ -20,6 +20,7 @@ class UserDetailsModel {
   final int? type;
   final String? email;
   final String? age;
+  final String? fcm;
 
   UserDetailsModel({
     this.createdAt,
@@ -31,6 +32,7 @@ class UserDetailsModel {
     this.type,
     this.email,
     this.age,
+    this.fcm
   });
 
   factory UserDetailsModel.fromJson(Map<String, dynamic> json) {
@@ -44,6 +46,8 @@ class UserDetailsModel {
       type: json['type'],
       email: json['email'],
       age: json['age'],
+      fcm: json['fcm_token'],
+   
     );
   }
 

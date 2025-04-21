@@ -46,6 +46,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
 scaffoldMessengerKey: CustomSnackBar.scaffoldMessengerKey,
+navigatorKey: CustomAlertPopUp.navigatorKey,
      
 debugShowCheckedModeBanner: false,     
       home: SplashScreen()

@@ -1,17 +1,13 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:resq_application/widget/custom_snackbar.dart';
 
-class AdminLoginController extends ChangeNotifier
- {
- FirebaseAuth firebaseAuth =FirebaseAuth.instance;
+class AdminLoginController extends ChangeNotifier{
+ FirebaseAuth firebaseAuth = FirebaseAuth.instance;
  FirebaseFirestore firebaseFirestore =FirebaseFirestore.instance;
 TextEditingController emailController=TextEditingController();
 TextEditingController passWordController=TextEditingController();
-  bool isLoading=false;
+bool isLoading=false;
  
 //  Future<bool> userSignIn({int? userType}) async {
 //     try {
