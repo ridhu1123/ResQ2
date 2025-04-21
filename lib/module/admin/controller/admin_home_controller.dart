@@ -205,4 +205,18 @@ Future<void>changeFirsAidCount({String? id,int changeCount=0})async{
 buyLoad=false;
 notifyListeners();
 }
+
+Future<void>removeFirsAidCount({String? id,int count=0})async{
+    
+   buyLoad=true;
+   notifyListeners();
+   await firebaseFirestore.collection('first_aids').doc(id).update(
+      {
+      'count':count,
+      }
+      );
+      fetchAllFirstAids();
+buyLoad=false;
+notifyListeners();
+}
 }

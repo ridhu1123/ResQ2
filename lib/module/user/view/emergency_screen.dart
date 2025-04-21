@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:resq_application/module/user/controller/user_home_controller.dart';
 import 'package:resq_application/theme/theme.dart';
@@ -11,9 +10,8 @@ class EmergencyPage extends StatelessWidget {
   EmergencyPage({super.key}); // Function to show dialog
   void showSafetyDialog(
       BuildContext context, String disaster, String precautions) {
-    CustomSnackBar.show(
-      title: "Safety Tips for $disaster",
-      message: precautions,
+    CustomSnackBar.error(
+    precautions,
       // content: Padding(
       //   padding: const EdgeInsets.all(8.0),
       //   child: Text(precautions, textAlign: TextAlign.center),

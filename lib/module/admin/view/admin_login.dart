@@ -94,7 +94,7 @@ class AdminLogin extends StatelessWidget {
                                       context.read<UserLoginController>().userSignIn(userType: 1).then(
                                         (value) {
                                           if (value) {
-                                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AdminHomePage()));
+                                     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>AdminHomePage()),(route) => false);
                                             
                                           }
                                         },

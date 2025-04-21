@@ -12,14 +12,16 @@ import 'package:resq_application/module/admin/view/admin_home.dart';
 import 'package:resq_application/module/user/controller/user_home_controller.dart';
 import 'package:resq_application/module/user/controller/user_login_controller.dart';
 import 'package:resq_application/module/user/view/bottom_navigation.dart';
-import 'package:resq_application/module/user/view/user_home.dart';
 import 'package:resq_application/module/user/view/user_login.dart';
 import 'package:resq_application/module/voulnteer/view/voulnteer_home.dart';
-import 'package:resq_application/module/voulnteer/view/voulnteer_login.dart';
+import 'package:resq_application/services/firebase_services.dart';
 import 'package:resq_application/theme/theme.dart';
+import 'package:resq_application/widget/custom_snackbar.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+  await NotificationManager.initialize();
   runApp(
     MultiProvider(
       providers: [
@@ -43,7 +45,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      scaffoldMessengerKey: AppConstants().rootScaffoldMessengerKey,
+scaffoldMessengerKey: CustomSnackBar.scaffoldMessengerKey,
+     
 debugShowCheckedModeBanner: false,     
       home: SplashScreen()
     );

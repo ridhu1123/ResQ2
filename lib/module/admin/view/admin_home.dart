@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:resq_application/module/admin/controller/admin_home_controller.dart';
@@ -9,6 +10,7 @@ import 'package:resq_application/module/admin/view/first_aids_screen.dart';
 import 'package:resq_application/module/admin/view/orders_screen.dart';
 import 'package:resq_application/module/admin/view/rejected_reuestes.dart';
 import 'package:resq_application/module/admin/view/request_screen.dart';
+import 'package:resq_application/module/admin/view/sound_alert_screen.dart';
 import 'package:resq_application/theme/theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -41,20 +43,28 @@ class _AdminHomePageState extends State<AdminHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xff0C3B2E),
-      floatingActionButton: FloatingActionButton(
-        onPressed: ()async {
-             await context.read<AdminLoginController>().signOut().whenComplete(() {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>AdminLogin()));
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: ()async {
+      //        await context.read<AdminLoginController>().signOut().whenComplete(() {
+      //               Navigator.push(context, MaterialPageRoute(builder: (context)=>AdminLogin()));
                       
-                    },);
-          // authcontroller.signOut();
-        },
-        child: Icon(Icons.logout_outlined),
-      ),
-      appBar: AppBar(title: Text("Admin Dashboard"),
+      //               },);
+      //     // authcontroller.signOut();
+      //   },
+      //   child: Icon(Icons.logout_outlined),
+      // ),
+      appBar: AppBar(title: Text("Admin Dashboard",),
+      actions: [
+        IconButton(onPressed: ()async {
+          await context.read<AdminLoginController>().signOut().whenComplete(() {
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AdminLogin()));
+                
+                },);
+        }, icon: Icon(Icons.logout_outlined))
+      ],
       
       ),
-      body:
+      body: 
         // if (controller.isLoading.value) {
         //   return Center(child: CircularProgressIndicator());
         // }
@@ -78,7 +88,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 // final isSelected =
                 //     controller.selectedItems.contains(item['id'].toString());
              
-                return GestureDetector(
+                return
+                 GestureDetector(
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context)=>screens[index]));
                     // print("Tapped on item: ${item['name']} (ID: ${item['id']})");
@@ -123,7 +134,11 @@ borderRadius: BorderRadius.circular(10) ,
                      );
            }
          ),
-      
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>SoundAlertScreen()));
+      },
+     child: Icon(Icons.campaign_outlined),
+      ),
     );
   }
 

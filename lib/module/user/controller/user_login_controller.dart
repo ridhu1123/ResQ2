@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:resq_application/widget/custom_snackbar.dart';
 
@@ -14,6 +15,7 @@ class UserLoginController extends ChangeNotifier {
   bool isLoading = false;
   Future<void> userSignUp() async {
     try {
+       
       isLoading = true;
       notifyListeners();
       final response = await firebaseAuth
@@ -22,10 +24,10 @@ class UserLoginController extends ChangeNotifier {
             password: passWordController.text,
           )
           .then((value) async{
-            
+              String? fcmToken = await FirebaseMessaging.instance.getToken();
             if (!(value.user!.emailVerified)) {
               firebaseAuth.currentUser!.sendEmailVerification();
-                CustomSnackBar.show(title: '', message: 'SignUp successfull');
+                CustomSnackBar.success( 'SignUp successfull');
             }
             final uid=value.user?.uid;
               await FirebaseFirestore.instance.collection('users').doc(uid).set({
@@ -34,6 +36,7 @@ class UserLoginController extends ChangeNotifier {
       'createdAt': FieldValue.serverTimestamp(),
       'name':'',
       'phone':'',
+      'fcm_token':fcmToken,
       'blood_group':'',
       'gender':'',
       'age':'',
@@ -49,7 +52,7 @@ class UserLoginController extends ChangeNotifier {
     } catch (e) {
       isLoading = false;
       notifyListeners();
-       CustomSnackBar.show(title: '', message: 'Somethink went wrong $e');
+       CustomSnackBar.error( 'Somethink went wrong $e');
       log('Somethinkwent wrong $e');
     }
   }
@@ -59,14 +62,19 @@ class UserLoginController extends ChangeNotifier {
     try {
       isLoading = true;
       notifyListeners();
+    
       final response = await firebaseAuth
           .signInWithEmailAndPassword(
             email: emailController.text,
             password: passWordController.text,
           );
    
+   log('SignIn response ${response.user}');
     if (!(response.user?.emailVerified??false)) {
       log('email  is not verified');
+        CustomSnackBar.error( 'Please verify Your Email ');
+          isLoading = false;
+      notifyListeners();
       return false;
     }
          if (response.user !=null) {
@@ -75,15 +83,19 @@ class UserLoginController extends ChangeNotifier {
         .get();
         if (userData['type']==userType) {
              clearControllers();
-          CustomSnackBar.show(title: '', message: 'SignIn successfull');
+          CustomSnackBar.success( 'SignIn successfull');
+              isLoading = false;
+      notifyListeners();
           return true; 
         }
-         CustomSnackBar.show(title: '', message: 'Login anthother user');
+         CustomSnackBar.error( 'Login anthother user');
+             isLoading = false;
+      notifyListeners();
         return false;
        
          }
         
-           CustomSnackBar.show(title: '', message: 'Somethink went wrong');
+           CustomSnackBar.error( 'Somethink went wrong');
             isLoading = false;
       notifyListeners();
           return false;
@@ -93,7 +105,7 @@ class UserLoginController extends ChangeNotifier {
       
       isLoading = false;
       notifyListeners();
-           CustomSnackBar.show(title: '', message: 'Somethink went wrong $e');
+           CustomSnackBar.error( 'Somethink went wrong $e');
       log('Somethinkwent wrong $e');
       return false;
     }
