@@ -75,7 +75,9 @@ class _VoulnteerHomeState extends State<VoulnteerHome> {
                             child: Row(
                               children: [
                                 Icon(Icons.location_on,),
-                                Text("Location : ${user['location'] ??''}",style: TextStyle(color: Colors.grey[700],fontWeight: FontWeight.bold),),
+                                SizedBox(
+                                  width: 200,
+                                  child: Text("Location : ${user['location'] ??''}",style: TextStyle(color: Colors.grey[700],fontWeight: FontWeight.bold,overflow: TextOverflow.ellipsis),)),
                               ],
                             ),
                           ),
@@ -133,12 +135,14 @@ class _VoulnteerHomeState extends State<VoulnteerHome> {
                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                           ChoiceChip(label: Text('Help deliverd'), selected: true,
+                           ChoiceChip(label: Text('Help deliverd'), selected: user['deliver_status']==3?true:false,
+                           color:WidgetStatePropertyAll(user['deliver_status']==3? Colors.green:Colors.grey),
                            onSelected: (value) {
                              controller.statusUpdate(status:3 ,id: user['id']);
                            },
                            ),
-                                                  ChoiceChip(label: Text('On the way'), selected: true,autofocus: true,
+                                                  ChoiceChip(label: Text('On the way'), selected: user['deliver_status']==2?true:false,autofocus: true,
+                                                  color:WidgetStatePropertyAll(user['deliver_status']==2? Colors.green:Colors.grey),
                                                   onSelected: (value) {
                                                     controller.statusUpdate(status:2 ,id: user['id']);
                                                   },

@@ -1,9 +1,11 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:resq_application/widget/custom_snackbar.dart';
 
 class NotificationManager {
@@ -12,7 +14,16 @@ class NotificationManager {
   /// Call this once during app startup
   static Future<void> initialize() async {
     // Request permissions (optional on Android)
-    await _messaging.requestPermission();
+    await _messaging.requestPermission(criticalAlert: true,);
+      if (Platform.isAndroid) {
+     
+        final status = await Permission.notification.status;
+        if (!status.isGranted) {
+          await Permission.notification.request();
+        }
+      
+    }
+
 
     // 🔄 Handle token refresh
     _messaging.onTokenRefresh.listen(_updateTokenInFirestore);

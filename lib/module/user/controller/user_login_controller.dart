@@ -13,6 +13,10 @@ class UserLoginController extends ChangeNotifier {
   TextEditingController passWordController = TextEditingController();
   TextEditingController districtController = TextEditingController();
   bool isLoading = false;
+  int type=0;
+ bool positive = false;
+
+  final controller1 = ValueNotifier<bool>(false);
   Future<void> userSignUp() async {
     try {
        
@@ -32,7 +36,7 @@ class UserLoginController extends ChangeNotifier {
             final uid=value.user?.uid;
               await FirebaseFirestore.instance.collection('users').doc(uid).set({
       'email': emailController.text,
-      'type': 0, 
+      'type': type, 
       'createdAt': FieldValue.serverTimestamp(),
       'name':'',
       'phone':'',
@@ -127,5 +131,12 @@ class UserLoginController extends ChangeNotifier {
     emailController.clear();
     passWordController.clear();
     notifyListeners();
+  }
+
+  void userChange(bool value){
+   positive=value;
+   type=positive?2:0;
+   print('Type is $type');
+   notifyListeners();
   }
 }

@@ -1,15 +1,18 @@
+import 'package:animated_toggle_switch/animated_toggle_switch.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 import 'package:provider/provider.dart';
 import 'package:resq_application/module/user/controller/user_login_controller.dart';
 import 'package:resq_application/module/user/view/user_login.dart';
 import 'package:resq_application/theme/theme.dart';
 import 'package:resq_application/widget/custom_textfeild.dart';
+import 'package:slider_button/slider_button.dart';
 
 class UserRegister extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   // final AuthController authController = Get.find();
-
   UserRegister({super.key});
 
   @override
@@ -39,9 +42,87 @@ class UserRegister extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Register with                     ResQ',
-                        style: AppTextStyles.headlineLargeBlack,
+                      
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Register with ResQ',
+                            style: AppTextStyles.headlineLargeBlack,
+                          ),
+                           Tooltip(
+                            message: 'Switch user SignUp',
+                             child: SizedBox(
+                              
+                                             child: AnimatedToggleSwitch<bool>.dual(
+                                               current: controller.positive,
+                                               first: false,
+                                               second: true,
+                                              //  height: ,
+                                               spacing: 0.0,
+                                               // textBuilder: (value) {
+                                               //   return Text(value?'Voulenteer':'User');
+                                               // },
+                                               
+                                               iconBuilder: (value) {
+                                                 return Icon(value? Icons.support_agent:Icons.person,color: Color(0xffFFBA00),size: 20,);
+                                               },
+                                               styleBuilder: (value) {
+                                                 return ToggleStyle(
+
+                                                  
+                                                   indicatorColor: const Color(0xff0C3B2E),
+
+
+                                                   // backgroundColor: const Color(0xff0C3B2E)
+                                                 );
+                                               },
+                                               style: const ToggleStyle(
+                                                  
+                                                 borderColor: Colors.transparent,
+                                                 boxShadow: [
+                                                   BoxShadow(
+                                                     color: Color.fromARGB(66, 95, 95, 95),
+                                                     spreadRadius: 1,
+                                                     blurRadius: 2,
+                                                     offset: Offset(0, 1.5),
+                                                   ),
+                                                 ],
+                                               ),
+                             
+                                               borderWidth: 5.0,
+                                               
+                                               // height: 55,
+                                               onChanged: (b) {
+                                        controller.userChange(b);
+                                               }),
+                                              
+                                             ),
+                           ),
+              
+
+//  AdvancedSwitch(
+//                         activeChild: Text('Vouelnteer'),
+//                             width: 100,
+//                             inactiveChild: Text('User'),
+
+//                   controller: controller.controller1,
+//                   thumb: ValueListenableBuilder<bool>(
+
+//                     valueListenable: controller.controller1,
+
+//                     builder: (_, value, __) {
+//                       return Container(
+//                         // height: 10,
+//                         decoration: BoxDecoration(
+//                           shape: BoxShape.circle,
+//                           color: Colors.white
+//                         )
+//                          );
+//                     },
+//                   ),
+                // ),
+                        ],
                       ),
                       SizedBox(height: res.width(0.05)),
                       Text('Email', style: AppTextStyles.bodyLargeBlack),

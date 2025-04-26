@@ -26,7 +26,7 @@ List <Map<String, dynamic>> allData=[];
         .toList();
           isLoading = false;
     notifyListeners();
-    // print('Fetched all users: $allData');
+    // print('Fetched all users: ${allData.first['deliver_status']}');
 
     // You can now assign this to a variable like allUsers
     // allUsers.value = allData;
@@ -38,6 +38,7 @@ List <Map<String, dynamic>> allData=[];
     notifyListeners();
   }
 }
+bool isSelected=false;
 Future<void>statusUpdate({int? status,String? id})async{
  try {
       isLoading=true;
@@ -47,6 +48,7 @@ Future<void>statusUpdate({int? status,String? id})async{
       'deliver_status':status
       }
       );
+      isSelected=true;
   //  await   removeResQ(selectedData: selectedData);
       // clearController();
       isLoading=false;

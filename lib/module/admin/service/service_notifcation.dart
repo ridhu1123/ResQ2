@@ -11,8 +11,8 @@ class SendNotificationService {
 {
   "type": "service_account",
   "project_id": "resq-72836",
-  "private_key_id": "3f9742262ea6d3835c84a5b40a59e273d3f6edb4",
-  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCzBaEGMmY+4WTe\nW/Nl/+xYanV7AEnRSm1kNOHJe+Fx/sVZskdvlOfolRuS6jkVGlmsODiAWKjdT2Dk\n1R+5r4iCUYgzPFHw8bOPwZ+ee56SuYxFcDtPa3YKDG9uQ4fJbxI3VBSgUUreQINc\nOoQqiVoUS1x1CHPrcMpQAcG/EldmK/qmeXDUyIRnZGVQ2P4x3DM9jBhi4urIJmEk\nf5Xi1P2pkPEMNbKA1O2G51NkbTpmdW7P9VxqlIPsPAQNDmK2Z/sxfqTLF9TGO9ZE\nwBgy+NdAFACTwxGkg3bSJA8hiPUwYZgmE4kW0UOiDk3y1inrOS9+YnjbXqmyr059\nAGLgeFTlAgMBAAECggEAH4wlZS8qf3g+y0SO7vGbl7UjAMr7NyuTfW4oP9ZZ0znf\nU0AsgIhQGdd05X3rE0HyfXvm0Q9OqrlbTNgV4CYDu1tc0hKWKgyd5P5s/4OvXRHf\nmzj86rD4OysX0+mIm0G8hw2FGP9aXzIlM/KH6esMebkSEPmtW9cjf9ffaal0x2c6\nlJWdEmTqoTxBO9MFbRuf4mR0JjTw2Av8rzEr+JivPRu+Ktr630Fn4nEnSF/3/9vA\n5skkqKpoL3OuangNhGoKw1rSUaB4FShEHIWEGvMCKw5KEaDeLfJcBev1S0ZwU4F4\niIoSggJyZ4UVCymh54jpj/Y3JpySNRHWUVfot7Zi3QKBgQDy/5P6fm+gmAJANCL/\nnfkl8K487Wl1xGBmoNFjoZvfD+mPeGUK3lNt1FZxe4VWjSPDl52kS1IM88DtsPmr\nR9vext21PMMAVnmgk6/7OugCzQXq37R+67+L4Ta7zz2QkJcPhOPoxP64eWmzIdVD\nJ9dzCepvtnp7QE0zWIg4gq/srwKBgQC8mb9SS2WzmEIPTHOlERqZ5shjXmWu+u7F\nT51eTfn4luIpD9rm2SPSBuiI2wYpO89V6WgzgTB9tlyAKBzJEOG8Z6rlTh60s9id\nMP5dup4uu1oL3P/s5hsZVEcBi1tW7TNm9WevH/5KelZu9z9ucK7ULQJftTNuLuhc\nBQKdmIWEqwKBgQDtO5NOpI16ba0U3VGl2KZa4gRZOzcQYG31A+AosqgoN7K//Lw4\nxiERQpI6LGtaumRGGgkvUtGCD5807uhwzbDcZ64fuHhwJfyMRmMylKnZwiuayFfA\n6YuRlogHByaFsoOoBQc0Qs6jbvVAizFXZNg0WWPlOHOPTJGSJUaoVP5HxQKBgF5h\n3rHzU3D+CEkZrGH13kcYjD3WNrLLlwQdJJbWFPuHnqSH77dJATkRBfu/CCVIbikD\nRodH5ply0nW8HTOuBBnCE27vmkQ6IHQB2bnUM2cVkSmQrm7CdNtHJsWqFMq6p9el\nhf7I1vw0nt6nUxIUyBkccSyuRI+mX9f1FesCMgdDAoGBAIjY5PycmYTn7WHDqLtf\nZdT7/tlTTUVQcr808gqBbTjoY5ppShVytss0PiF3EcqfhMblpxg0A15GEMrd3rKM\nGYCKZZRWkOVeupsjkezeObd+Cs1EpluGwo9/aC5r3+WCLvKHEdjGFm1OQdhXHted\nFSGjwdhPcHqV6uawVgEG+uHm\n-----END PRIVATE KEY-----\n",
+  "private_key_id": "d74e7949b7ec5de11207461e214c2a1ccef0355e",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCpp8E6bO84raEz\nRQZhKUZRMDi2clQ2vWAbcnnhAZCkDkeYy0d6vtfP1K5MtXFtcw/seg7A2+Qd4h1n\nTzawRO548JmkNhxf3yps+ssMyVXN/9Qj8SXGfKLOaANk7lfyCN3SqEc9I/Z+fuXJ\nEjMtJ8C3zjmvmSF8+IhNPAnf5wRH0cLHI9cIvXylRcOu5N5kSYSllFgd4khUGahd\nCflc2uBlKLob39yynjEk0PzZUH9uXYKcZZaaWjz/EYUGmurbhdC4E5roRNfM98a4\nGwS0sp2PakUjbKd4C1gl7Mxvc95MB1zkLl3bsiVCNZ8QYEDdzCyIflGMYGdFAuhS\n4mKQSDcdAgMBAAECggEAE2ZRXCL0v+Bq3Hf6IMYdek8vTP2Jz7Cb+sd+VFJffcL8\nQOaNx+VmvCcvvynITKGponrakQcT8K7YeeW+9S0Mr9ujVfmyCOx153xOF6o2G5Yz\nZeC/VxENdNjD+pieidiltN71NnKUTyank/R20aUIDnyQcBnskGPDAkHpRycdgDC2\nKhnqpVP4saioRkN7tEfqnJ/Q6rY99xJ+NzFbM6m/GSDou85L7q0Aee3mmMZFezKf\nh7qR6Irr+upgVq/Jb+jiB35vmc1UsUhSO0M1rMJAdBrYztUEy0wE0h/sthifLkxM\ngqfla4dq+p6d9uYoBuoGR89tePdk1oiKzWwVjMYDAQKBgQDtZeglrzfi5CCh1NQ5\nhrV2Ivm5nsKz20nf2B8ue6EHYGkEkKiH7qyBW6B+AbJA8aA2JhYph4V7PS14P9zL\nvHSTNyle/CVKnJyV7GsvXfqNG2736kTh3S3ozyz7VZSXCC7lvvfBOcDKl1kwHQRj\nQYE578iUtl4qINyKtFnrTyIV4QKBgQC28vW0yqQSN7RnghNPRFi5KIq3R3hf408X\nGXZcBxymBV0O0Ltnubt374E7ukdUpDnBWRC4MGLHbwE/o7CFeiD0y/v10QlDCg/H\nzMyQik3Z/SBec4H4A+pX99NUAQan+gILpK/hLbMYmXPzPLtY5Nkm3jPiID6SwBSO\neGEl2sAQvQKBgQCuuk6/TdOoX5fVBLyfCpMMvHlpMXzEvCYHZx6sK7o9n6wr+/zO\n79Bv9WyO0djNDAqLUEUHlAOezUxmMTrliXOT1wnQK22XGOX3QucxGc6LhSGLvxWr\n2AsuSy4kXrza3N8HoiLgSQ2pDvRKAVF1bIUci2vqaL+t6jnorQ1xr/C6gQKBgHlo\nJDwU2eqpAtRJ0sygm4xMZjmYeT6Q1zSKFiyeH5nhJ08kn6kG7Wx7CTT8ukdmMFmp\n5FmG6pZUiOyVkRgS4vnwwETxsobFj5FUzFADKATIYQms94wB9SrpcFln0OX6GA9n\n+7ugGyDw/KxnGiC0xZJwlNez9DJou3uMUVPQpfK1AoGBAKHDYQbqQDLnNBsKnRwD\nxkMIDWItvAFloifMtpzaBrOFnfWT2QqIfsoHRncSiBxUF/hQfafFWLpeopNrOnOF\nj6La6xBOoiuEwscaOkmqirv7pVGX3dqEXxdNrmAeJwNadc4JYqc+AC9yVbhbjz/V\na/jhsouYmuJN7U1b3fzFVNol\n-----END PRIVATE KEY-----\n",
   "client_email": "firebase-adminsdk-fbsvc@resq-72836.iam.gserviceaccount.com",
   "client_id": "110451333649398116289",
   "auth_uri": "https://accounts.google.com/o/oauth2/auth",
@@ -67,9 +67,9 @@ class SendNotificationService {
     },
     "android": {
       "priority": "high",
-      "notification": {
-        "sound": "notification_sound" // Android-specific sound
-      }
+      // "notification": {
+      //   // "sound": "notification_sound" // Android-specific sound
+      // }
     }
   }
 };
