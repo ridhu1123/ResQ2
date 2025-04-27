@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:resq_application/module/admin/controller/accepted_resq_controller.dart';
+import 'package:resq_application/module/admin/controller/admin_login_controller.dart';
+import 'package:resq_application/module/user/controller/user_login_controller.dart';
+import 'package:resq_application/module/voulnteer/view/voulnteer_login.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class VoulnteerHome extends StatefulWidget {
@@ -22,6 +25,20 @@ class _VoulnteerHomeState extends State<VoulnteerHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async{
+         await context.read<UserLoginController>().userSignOut().whenComplete(
+                () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => VoulnteerLogin()),
+                  );
+                },
+                
+              );
+      },
+      child: Icon(Icons.logout_outlined),
+      ),
       backgroundColor: Color(0xff0C3B2E),
      
       appBar: AppBar(title: Text("Volunteer Dashboard"),
@@ -48,6 +65,7 @@ class _VoulnteerHomeState extends State<VoulnteerHome> {
           itemCount: controller.allData.length,
           itemBuilder: (context, index) {
             final user = controller.allData[index];
+            final delivaryStatus=user['deliver_status'];
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Card(
@@ -135,16 +153,20 @@ class _VoulnteerHomeState extends State<VoulnteerHome> {
                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                           ChoiceChip(label: Text('Help deliverd'), selected: user['deliver_status']==3?true:false,
-                           color:WidgetStatePropertyAll(user['deliver_status']==3? Colors.green:Colors.grey),
+                           ChoiceChip(label: Text('Help deliverd'), selected: delivaryStatus==3?true:false,
+                           color:WidgetStatePropertyAll(delivaryStatus==3? Colors.green:Colors.grey),
                            onSelected: (value) {
-                             controller.statusUpdate(status:3 ,id: user['id']);
+                             controller.statusUpdate(status:3 ,id: user['id']).whenComplete(() {
+                               controller.fetchAllAccpectedResq();
+                             },);
                            },
                            ),
-                                                  ChoiceChip(label: Text('On the way'), selected: user['deliver_status']==2?true:false,autofocus: true,
-                                                  color:WidgetStatePropertyAll(user['deliver_status']==2? Colors.green:Colors.grey),
+                                                  ChoiceChip(label: Text('On the way'), selected: delivaryStatus==2?true:false,autofocus: true,
+                                                  color:WidgetStatePropertyAll(delivaryStatus==2? Colors.green:Colors.grey),
                                                   onSelected: (value) {
-                                                    controller.statusUpdate(status:2 ,id: user['id']);
+                                                    controller.statusUpdate(status:2 ,id: user['id']).whenComplete(() {
+                                                      controller.fetchAllAccpectedResq();
+                                                    },);
                                                   },
                                                   ),
                          

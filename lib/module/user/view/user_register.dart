@@ -1,13 +1,10 @@
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 import 'package:provider/provider.dart';
 import 'package:resq_application/module/user/controller/user_login_controller.dart';
 import 'package:resq_application/module/user/view/user_login.dart';
 import 'package:resq_application/theme/theme.dart';
 import 'package:resq_application/widget/custom_textfeild.dart';
-import 'package:slider_button/slider_button.dart';
 
 class UserRegister extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();

@@ -50,8 +50,6 @@ dependencies:
   googleapis_auth: ^2.0.0
   firebase_messaging: ^15.2.5
   audioplayers: ^6.4.0
-  slider_button: ^2.1.0
-  flutter_advanced_switch: ^3.1.0
   animated_toggle_switch: ^0.8.4
 dev_dependencies:
   flutter_test:

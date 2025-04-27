@@ -139,4 +139,5 @@ class UserLoginController extends ChangeNotifier {
    print('Type is $type');
    notifyListeners();
   }
+  
 }

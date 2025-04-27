@@ -205,7 +205,7 @@ isProileLoading = true;
   phoneController.clear();
   bloodGroupController.clear();
   genderController.clear();
-
+  
   notifyListeners();
  } 
 

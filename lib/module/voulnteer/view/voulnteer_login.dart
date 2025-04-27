@@ -86,9 +86,9 @@ class VoulnteerLogin extends StatelessWidget {
                                 width: res.screenWidth,
                                 child: Center(child: const CircularProgressIndicator()))
                               : 
-                              Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 110, right: 110),
+                              SizedBox(
+                                width: res.screenWidth,
+                                child: Center(
                                   child: ElevatedButton(
                                     onPressed: () {
                                        controller.userSignIn(userType: 2).then(
@@ -111,6 +111,7 @@ class VoulnteerLogin extends StatelessWidget {
                                     child: const Text("Log In"),
                                   ),
                                 ),
+                              ),
                        
                         // Padding(
                         //   padding: const EdgeInsets.only(left: 100, right: 100),
